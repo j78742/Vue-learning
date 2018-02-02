@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>组件化测试</title>
+    <script type="text/javascript" src="https://unpkg.com/vue"></script>
+    <style>
+        .tang-desc::before {
+            display: block;
+            font-size: 18px;
+            color: #ff8300;
+            font-weight: 600;
+        }
+
+        .tang-row {
+            padding: 10px 15px;
+            background: #eee;
+            margin-bottom: 15px;
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        #app::before {
+            content: "测试组件应用"
+        }
+    </style>
+
+    <body>
+        <div id="app" class='tang-row tang-desc'>
+            <todo-item
+                v-for="item in items"
+                v-bind:todo="item"
+                v-bind:key="item.id"
+            >
+            </todo-item>
+        </div>
+        <script type="text/javascript">
+            Vue.component('todo-item', {
+                props: ['todo'],
+                template: '<li>{{ todo.text }}</li>'
+            })
+            var items = [
+                    { id: 0, text: '苹果' },
+                    { id: 1, text: '西瓜' },
+                    { id: 2, text: '西红柿' }
+                ]
+            var app = new Vue({
+                el: "#app",
+                data(){
+                    return {items}
+                },
+                created: (params) => {
+                    console.log(this)
+                }
+            })
+        </script>
+    </body>
+
+</html>
