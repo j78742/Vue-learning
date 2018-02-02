@@ -1,21 +1,86 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>Vue第一个测试实例</title>
 	<script type="text/javascript" src="https://unpkg.com/vue"></script>
-<body>
-   <div id="app">
-	   {{ message }}
-	   <span v-bind:title="message" v-if="seen">我一个隐形的提示标签</span>
-   </div>
-   <script type="text/javascript">
-   	  var app = new Vue({
-   	  	el: "#app",
-   	  	data: {
-   	  		message: 'Hello, my Vue!',
-   	  		seen: true
-   	  	}
-   	  })
-   </script>
-</body>
+	<style>
+		.tang-desc::before {
+			display: block;
+			font-size: 18px;
+			color: #ff8300;
+			font-weight: 600;
+		}
+
+		.tang-row {
+			padding: 10px 15px;
+			background: #eee;
+			margin-bottom: 15px;
+		}
+
+		.tang-second-row {
+			color: #ca65b3;
+			font-size: 19px;
+			margin: 10px 0 5px;
+		}
+
+		#app::before {
+			content: '1、测试元素绑定';
+		}
+
+		#app2::before {
+			content: '2、循环测试，点击事件绑定'
+		}
+
+		select {
+			border: 1px solid #ddd;
+			height: 32px;
+			font-size: 16px;
+			min-width: 100px;
+		}
+	</style>
+
+	<body>
+		<div id="app" class='tang-row tang-desc'>
+			{{ message }}
+			<span v-bind:title="message" v-if="seen">我一个隐形的提示标签</span>
+		</div>
+		<div id="app2" class='tang-row tang-desc'>
+			<li v-for="item in items" v-on:click="handle" v-bind:value="item.id">{{ item.text }}</li>
+			<div class="tang-second-row">model绑定测试</div>
+			<select v-model="selected">
+				<option v-for="item in items" v-bind:value="item.id" v-bind:placeholder="placeholder">{{item.text}}</option>
+			</select>
+			<span style="margin-left:15px">您选择了列：{{selected}}</span>
+		</div>
+		<script type="text/javascript">
+			var app = new Vue({
+				el: "#app",
+				data: {
+					message: 'Hello, my Vue!',
+					seen: false,
+				}
+			})
+			var app2 = new Vue({
+				el: "#app2",
+				data: {
+					selected: "1",
+					placeholder: '请选择',
+					items: [{
+						id: 1,
+						text: "测试列1"
+					}, {
+						id: 2,
+						text: '测试列2'
+					}]
+				},
+				methods: {
+					handle: (e) => {
+						alert(`您点击了该列，列值为: ${e.target.value}`)
+					}
+				}
+			})	 
+		</script>
+	</body>
+
 </html>
