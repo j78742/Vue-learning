@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>计算和侦查属性测试</title>
+    <script type="text/javascript" src="https://unpkg.com/vue"></script>
+    <style>
+        .tang-desc::before {
+            display: block;
+            font-size: 18px;
+            color: #ff8300;
+            font-weight: 600;
+        }
+
+        .tang-row {
+            padding: 10px 15px;
+            background: #eee;
+            margin-bottom: 15px;
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        #computed::before {
+            content: "计算属性"
+        }
+
+        #watch::before {
+            content: "侦查属性"
+        }
+    </style>
+
+    <body>
+        <div id="app" class='tang-row'>
+            <div id="computed" class="tang-desc">
+                <div>
+                    <span>测试数字1：{{ computed_num1 }}</span>
+                    <input v-model="computed_num1" />
+                </div>
+                <div>
+                    <span>测试数字2：{{ computed_num2 }}</span>
+                    <input v-model="computed_num2" />
+                </div>
+                <div>测试总和：{{ computed_total }}</div>
+            </div>
+            <div id="watch" class="tang-desc">
+                测试数字1输出：{{ watch_num1 || "空" }}, 测试数字2输出: {{ watch_num2 || "空" }}
+            </div>
+        </div>
+        <script type="text/javascript">
+            var app = new Vue({
+                el: '#app',
+                data: {
+                    computed_num1: 1,
+                    computed_num2: 3,
+                    watch_num1: '',
+                    watch_num2: ''
+                },
+                computed: {
+                    computed_total: {
+                        get: function () {
+                            console.log("加数值变化了")
+                            return parseInt(this.computed_num1 || 0) + parseInt(this.computed_num2 || 0)
+                        },
+                        set: function(newValue) {
+                            this.computed_num1 = 1;
+                            this.computed_num2 = newValue - this.computed_num1;
+                        }
+                    }
+                },
+                watch: {
+                    computed_num1: function (val) {
+                        this.watch_num1 = val;
+                    },
+                    computed_num2: function (val) {
+                        this.watch_num2 = val;
+                    }
+                }
+            })
+        </script>
+    </body>
+
+</html>
